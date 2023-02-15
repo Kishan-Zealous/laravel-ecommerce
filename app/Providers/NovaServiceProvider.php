@@ -16,6 +16,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::style('my-theme', public_path('build/assets/nova.css'));
+
+        $this->app->alias(
+            \App\Http\Controllers\Nova\LoginController::class,
+            \Laravel\Nova\Http\Controllers\LoginController::class
+        );
     }
 
     /**
@@ -41,9 +48,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
+            return true;
         });
     }
 
