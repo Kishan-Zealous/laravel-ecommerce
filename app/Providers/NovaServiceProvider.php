@@ -25,7 +25,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
 
-        Nova::style('my-theme', public_path('build/assets/nova.css'));
+        Nova::style('my-theme', resource_path('css/app.css'));
 
         $this->app->alias(
             \App\Http\Controllers\Nova\LoginController::class,

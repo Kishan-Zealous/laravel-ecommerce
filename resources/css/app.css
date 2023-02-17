@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+    --colors-primary-50: 240, 249, 255;
+    --colors-primary-100: 224, 242, 254;
+    --colors-primary-200: 186, 230, 253;
+    --colors-primary-300: 125, 211, 252;
+    --colors-primary-400: 43, 65, 85;
+    --colors-primary-500: 23, 55, 72;
+    --colors-primary-600: 23, 55, 72;
+    --colors-primary-700: 3, 105, 161;
+    --colors-primary-800: 7, 89, 133;
+    --colors-primary-900: 12, 74, 110;
+}
+
+#nova{
+    background-color: #173748;
+}
+
+div[data-testid]>div:nth-child(2){
+    background-color: #f1f5f9;
+}
+
+header > div:nth-child(2) {
+    height: inherit;
+    background-color: #153140;
+}
+
+.sidebar-section-title{
+    color:white
+}
+
+.sidebar-item-label{
+    color: white;
+}
