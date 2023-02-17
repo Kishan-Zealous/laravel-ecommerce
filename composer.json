@@ -2,20 +2,49 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "acme/analytics": "*",
+        "acme/color-picker": "*",
+        "acme/price-tracker": "*",
+        "acme/stripe-inspector": "*",
+        "chaseconey/nova-external-image": "^0.3.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
+        "laravel/nova": "~4.0",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "laravel/nova": "~4.0"
+        "user/profilepic": "*"
     },
     "repositories": [
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/PriceTracker"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/StripeInspector"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Analytics"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/ColorPicker"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Profilepic"
         }
     ],
     "require-dev": {
@@ -70,6 +99,6 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

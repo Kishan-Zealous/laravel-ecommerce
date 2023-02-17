@@ -41,6 +41,7 @@ class Post extends Resource
     {
         return [
             ID::make()->sortable(),
+            
         ];
     }
 

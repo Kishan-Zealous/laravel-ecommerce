@@ -77,7 +77,8 @@ class LoginController extends Controller
         return array_merge(
             $request->only($this->username(), 'password'),
             [
-                'user_type'=>'admin'
+                'user_type'=>'admin',
+                'user_type'=>'superadmin'
             ]
         );
     }

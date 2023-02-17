@@ -2,14 +2,31 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Select;
+use Illuminate\Http\Request;
+use Acme\Analytics\Analytics;
 use Laravel\Nova\Fields\Text;
+use App\Nova\Metrics\NewUsers;
+use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\Select;
+use User\Profilepic\Profilepic;
+use Illuminate\Validation\Rules;
+use Laravel\Nova\Fields\Heading;
+use Acme\ColorPicker\ColorPicker;
+use App\Nova\Metrics\NewReleases;
+use App\Nova\Metrics\UsersPerDay;
+use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\Password;
+use App\Nova\Metrics\CountNewUser;
+use App\Nova\Metrics\UsersPerPlan;
+use Laravel\Nova\Fields\BelongsToMany;
+use Acme\StripeInspector\StripeInspector;
+use Chaseconey\ExternalImage\ExternalImage;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\HasMany as FieldsHasMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Resource
 {
@@ -36,6 +53,16 @@ class User extends Resource
         'id', 'name', 'email',
     ];
 
+
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('People');
+    }
     /**
      * Get the fields displayed by the resource.
      *
@@ -45,19 +72,26 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50),
 
+
+            Profilepic::make('Name', 'userImage')
+                ->withMeta([
+                    "imgUrl" => "$this->userImage",
+                    "firstname" => "$this->firstname",
+                    "lastname" => "$this->lastname"
+                ])->onlyOnIndex(),
+
+            Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml(),
             Text::make('FirstName')
-                ->sortable()
+                ->hideFromIndex()
                 ->rules('required', 'max:255'),
             Text::make('LastName')
-                ->sortable()
+                ->hideFromIndex()
                 ->rules('required', 'max:255'),
 
             Text::make('Email')
-                ->sortable()
+                ->exceptOnForms()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
@@ -68,14 +102,21 @@ class User extends Resource
                 ->updateRules('nullable', Rules\Password::defaults()),
 
             Select::make('User Type')
-            ->options([
-                'admin'=>'Admin',
-                'customer'=>'Customer'
-            ])
-            ->rules('required')
-            
+                ->options([
+                    'superadmin' => 'SuperAdmin',
+                    'admin' => 'Admin',
+                    'customer' => 'Customer',
+                ])->onlyOnForms()
+                ->rules('required'),
+
+            FieldsHasMany::make('post'),
+
+
+
         ];
     }
+
+
 
     /**
      * Get the cards available for the request.
@@ -85,7 +126,9 @@ class User extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            new Analytics()
+        ];
     }
 
     /**

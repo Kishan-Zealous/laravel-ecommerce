@@ -2,9 +2,17 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
+use App\Nova\Post;
+use App\Nova\User;
 use Laravel\Nova\Nova;
+use Illuminate\Http\Request;
+use App\Nova\Dashboards\Main;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
+use Acme\PriceTracker\PriceTracker;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\NovaApplicationServiceProvider;
+
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -23,6 +31,32 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             \App\Http\Controllers\Nova\LoginController::class,
             \Laravel\Nova\Http\Controllers\LoginController::class
         );
+
+
+        Nova::mainMenu(function (Request $request) {
+            return [
+                MenuSection::dashboard(Main::class)->icon('chart-bar'),
+
+                MenuSection::make('Human Resourse', [
+                    MenuItem::resource(User::class),
+                    MenuItem::resource(Post::class),
+                ])->icon('user')->collapsable(),
+
+                MenuSection::make('Project Controls', [
+                    MenuItem::resource(User::class),
+                    MenuItem::resource(Post::class),
+                ])->icon('document-text')->collapsable(),
+
+
+                MenuSection::make('IT Support')->path('/price-tracker'),
+                MenuSection::make('Quality Control')->path('/price-tracker'),
+
+                MenuSection::make('Configuration', [
+                    MenuItem::resource(User::class),
+                ])->icon('cog')->collapsable(),
+
+            ];
+        });
     }
 
     /**
@@ -71,7 +105,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+           new PriceTracker
+        ];
     }
 
     /**

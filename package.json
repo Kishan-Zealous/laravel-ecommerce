@@ -3,7 +3,21 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "watch":"vite build --watch"
+        "watch": "vite build --watch",
+        "build-addUser": "cd nova-components/AddUser && npm run dev",
+        "build-addUser-prod": "cd nova-components/AddUser && npm run prod",
+        "build-price-tracker": "cd nova-components/PriceTracker && npm run dev",
+        "build-price-tracker-prod": "cd nova-components/PriceTracker && npm run prod",
+        "build-adduser": "cd nova-components/Adduser && npm run dev",
+        "build-adduser-prod": "cd nova-components/Adduser && npm run prod",
+        "build-stripe-inspector": "cd nova-components/StripeInspector && npm run dev",
+        "build-stripe-inspector-prod": "cd nova-components/StripeInspector && npm run prod",
+        "build-analytics": "cd nova-components/Analytics && npm run dev",
+        "build-analytics-prod": "cd nova-components/Analytics && npm run prod",
+        "build-color-picker": "cd nova-components/ColorPicker && npm run dev",
+        "build-color-picker-prod": "cd nova-components/ColorPicker && npm run prod",
+        "build-profilepic": "cd nova-components/Profilepic && npm run dev",
+        "build-profilepic-prod": "cd nova-components/Profilepic && npm run prod"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
